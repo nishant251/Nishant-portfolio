@@ -1,0 +1,68 @@
+import ArrowUpRightIcon from "@/assets/icons/arrow-up-right.svg";
+import grainImage from "@/assets/images/grain.jpg";
+import { email } from "../../profile.config";
+
+const handleContactClick = () => {
+  const emailAddress = "nishantsrivastava864@gmail.com";
+  const subject = "Hello from Portfolio";
+  const body = "Hi Nishant,\n\nI saw your portfolio and would like to connect with you.\n\nBest regards,";
+  
+  // Try mailto link first
+  const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  
+  // Create a temporary link element
+  const link = document.createElement('a');
+  link.href = mailtoLink;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  
+  // Try to open the mailto link
+  try {
+    link.click();
+  } catch (error) {
+    // Fallback: copy email to clipboard
+    navigator.clipboard.writeText(emailAddress).then(() => {
+      alert(`Email copied to clipboard: ${emailAddress}`);
+    }).catch(() => {
+      // Final fallback: show email in alert
+      alert(`Please email me at: ${emailAddress}`);
+    });
+  }
+};
+
+export const ContactSection = ({ id }: { id: string }) => {
+  return (
+    <div className="py-12 md:pt-16 md:mt-2.5 lg:pt-24 lg:mt-3.5">
+      <section className="container" id={id}>
+        <div className="rounded-3xl bg-gradient-to-r from-emerald-300 to-sky-400 text-gray-950 py-8 px-10 text-center md:text-left relative z-10 overflow-clip">
+          <div
+            className="absolute inset-0 -z-10 opacity-5"
+            style={{
+              backgroundImage: `url(${grainImage.src})`,
+            }}
+          ></div>
+
+          <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-center">
+            <div>
+              <h2 className="font-serif text-2xl md:text-3xl">
+                Let&apos;s discuss something great together!
+              </h2>
+              <p className="text-sm md:text-base mt-2">
+                Hi, I&apos;m Nishant Srivastava. Want to discuss a project or just say hi? My inbox is always open.
+              </p>
+            </div>
+
+            {/* Email button */}
+            <button
+              onClick={handleContactClick}
+              className="bg-gray-900 text-white inline-flex items-center gap-2 px-6 h-12 rounded-xl w-max hover:bg-gray-800 transition cursor-pointer"
+            >
+              <span className="font-semibold">Contact Me</span>
+              <ArrowUpRightIcon className="size-4" />
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
